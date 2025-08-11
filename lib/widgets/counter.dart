@@ -15,6 +15,14 @@ class Counter extends StatefulWidget {
 
 class _CounterState extends State<Counter> {
   int counter = 1;
+  //just cus it always added with one quantity if you add it with specific quantity write:
+  //
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   counter=widget.cartModel.quantity;
+  // }
   @override
   Widget build(BuildContext context) {
     return Row(
