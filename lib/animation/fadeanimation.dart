@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 class FadeAnimation extends StatefulWidget {
   const FadeAnimation({super.key, required this.widget});
