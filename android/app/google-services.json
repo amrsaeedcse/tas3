@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "448293348234",
+    "project_id": "ecom2-f46f1",
+    "storage_bucket": "ecom2-f46f1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:448293348234:android:d27d2183f08e0fbaca9e73",
+        "android_client_info": {
+          "package_name": "com.example.task"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "448293348234-1fvprrtmc4b93sgv9pndvh9h5misqe1g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUHfnq-8Nr1CFPOd3YhP2WYhSFKV6yZLA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "448293348234-1fvprrtmc4b93sgv9pndvh9h5misqe1g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,15 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:task/controllers/cart_bloc/cart_control_cubit.dart';
 import 'package:task/helpers/theme/appcolors.dart';
-import 'package:task/helpers/widgets/custom_text.dart';
-import 'package:task/models/movie_model.dart';
-import 'package:task/views/screens/search_screen.dart';
-import 'package:task/views/widgets/featured_list.dart';
-import 'package:task/views/widgets/movie_grid.dart';
-
-import '../widgets/search_bar.dart';
+import 'package:task/helpers/widgets/custom_app_bar.dart';
+import 'package:task/helpers/widgets/gap.dart';
+import 'package:task/models/products/products_model.dart';
+import 'package:task/views/screens/producs_page.dart';
+import 'package:task/views/widgets/filter_button.dart';
+import 'package:task/views/widgets/filter_row.dart';
+import 'package:task/views/widgets/product_column.dart';
+import 'package:task/views/widgets/search_form.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -17,44 +19,46 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 16.0.w, left: 16.w, top: 12.h),
+      padding: EdgeInsetsGeometry.symmetric(horizontal: 16.w),
       child: SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            GestureDetector(
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        SearchScreen(movies: MovieModel.movieList),
+            SearchForm(),
+            Gap(h: 24.h),
+            FilterRow(),
+            Gap(h: 24.h),
+            BlocBuilder<CartControlCubit, CartControlState>(
+              builder: (context, state) {
+                return GridView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: ProductModel.products.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductPage(
+                              productModel: ProductModel.products[index],
+                            ),
+                          ),
+                        );
+                      },
+                      child: ProductColumn(
+                        productModel: ProductModel.products[index],
+                      ),
+                    );
+                  },
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 12.h,
+                    crossAxisSpacing: 12.w,
+                    childAspectRatio: 173 / 242,
                   ),
                 );
               },
-              child: AbsorbPointer(
-                child: SizedBox(
-                  height: 36.h,
-                  child: Hero(
-                    tag: "s",
-                    child: Material(
-                      color: Colors.transparent,
-                      child: SearchFormBar(),
-                    ),
-                  ),
-                ),
-              ),
             ),
-
-            SizedBox(height: 12.h),
-            SizedBox(height: 392.h, child: FeaturedList()),
-            SizedBox(height: 20.h),
-            CustomText(
-              text: "All Movies",
-              size: 22.sp,
-              weight: FontWeight.w700,
-            ),
-            SizedBox(height: 12.h),
-            MovieGrid(),
           ],
         ),
       ),

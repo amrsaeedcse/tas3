@@ -2,29 +2,33 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task/helpers/theme/appcolors.dart';
-import 'package:task/helpers/widgets/custom_app_bar.dart';
-import 'package:task/helpers/widgets/custom_text.dart';
-import 'package:task/models/movie_model.dart';
+import 'package:task/models/products/products_model.dart';
 
-class MovieScreen extends StatelessWidget {
-  const MovieScreen({super.key, required this.model, required this.tag});
+import '../../helpers/widgets/custom_app_bar.dart';
+import '../../helpers/widgets/custom_text.dart';
 
-  final MovieModel model;
-  final String tag;
+class ProductPage extends StatelessWidget {
+  const ProductPage({super.key, required this.productModel});
+  final ProductModel productModel;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: "", widget: null),
+      appBar: CustomAppBar(
+        title: "Product Info",
+        prefixWidget: null,
+        suffixWidget: null,
+      ),
       backgroundColor: AppColors.backGroundPrimary,
       body: SingleChildScrollView(
         child: Column(
           children: [
             Hero(
-              tag: tag,
+              tag: "2", //temp
               child: Material(
                 color: Colors.transparent,
                 child: Image.asset(
-                  model.image,
+                  productModel.image,
                   height: 320.w,
                   width: double.infinity,
                   fit: BoxFit.cover,
@@ -39,23 +43,17 @@ class MovieScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(
-                    text: model.title,
+                    text: productModel.name,
                     size: 22.sp,
                     weight: FontWeight.w700,
                   ),
                   SizedBox(height: 12.h),
-                  CustomText(
-                    text:
-                        "Release Date: ${model.dateTime.year}-${model.dateTime.month}-${model.dateTime.day}-",
-                    size: 14.sp,
-                    weight: FontWeight.w400,
-                    color: AppColors.textSecondary,
-                  ),
                   SizedBox(height: 12.h),
                   CustomText(
-                    text: model.disc,
+                    text: productModel.disc,
                     size: 16.sp,
                     weight: FontWeight.w400,
+                    maxLines: 8,
                   ),
                 ],
               ),

@@ -1,13 +1,21 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:task/controllers/fav_controller.dart';
+import 'package:task/controllers/cart_bloc/cart_control_cubit.dart';
 import 'package:task/helpers/theme/appcolors.dart';
-import 'package:task/views/screens/wrapper_screen.dart';
+import 'package:task/views/screens/home_page.dart';
+import 'package:task/views/screens/sign_in.dart';
+import 'package:task/views/screens/wrapper.dart';
 
-void main() {
+import 'firebase_options.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 
@@ -22,8 +30,8 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return ChangeNotifierProvider(
-          create: (context) => FavController(),
+        return BlocProvider(
+          create: (context) => CartControlCubit(),
           child: MaterialApp(
             theme: ThemeData(
               appBarTheme: AppBarTheme(
@@ -35,7 +43,7 @@ class MyApp extends StatelessWidget {
           ),
         );
       },
-      child: WrapperScreen(),
+      child: Wrapper(),
     );
   }
 }
