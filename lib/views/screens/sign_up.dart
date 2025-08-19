@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:task/controllers/auth_control/sign_in/sign_in_cubit.dart';
+import 'package:task/controllers/auth_control/sign_up/sign_up_cubit.dart';
 import 'package:task/helpers/widgets/show_snack.dart';
 import 'package:task/models/user/user_model.dart';
 import 'package:task/views/screens/sign_in.dart';
@@ -30,24 +34,33 @@ class _SignUpState extends State<SignUp> {
 
   void checkValidation() {
     if (_formKey.currentState!.validate()) {
-      List<UserModel> users = UserModel.users
-          .where((element) => element.email == email.text.trim())
-          .toList();
-      if (users.isNotEmpty) {
-        ShowSnack.showSnack(context, "Email is already exists");
-      } else {
-        UserModel user = UserModel(
+      ///this local sign
+      // List<UserModel> users = UserModel.users
+      //     .where((element) => element.email == email.text.trim())
+      //     .toList();
+      // if (users.isNotEmpty) {
+      //   ShowSnack.showSnack(context, "Email is already exists");
+      // } else {
+      //   UserModel user = UserModel(
+      //     name: name.text.trim(),
+      //     pass: pass.text.trim(),
+      //     email: email.text.trim(),
+      //   );
+      //   UserModel.users.add(user);
+      //   ShowSnack.showSnack(context, "Email created successfully");
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => SignIn()),
+      //   );
+      // }
+      context.read<SignUpCubit>().signUp(
+        UserModel(
+          image: null,
           name: name.text.trim(),
-          pass: pass.text.trim(),
           email: email.text.trim(),
-        );
-        UserModel.users.add(user);
-        ShowSnack.showSnack(context, "Email created successfully");
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => SignIn()),
-        );
-      }
+        ),
+        pass.text.trim(),
+      );
     }
   }
 
@@ -104,9 +117,31 @@ class _SignUpState extends State<SignUp> {
                       type: InputType.password,
                     ),
                     Gap(h: 24.h),
-                    CustomButton(onTap: checkValidation, text: "create"),
+                    BlocConsumer<SignUpCubit, SignUpState>(
+                      listener: (context, state) {
+                        if (state is SignUpSuccess) {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => SignIn()),
+                          );
+                          ShowSnack.showSnack(
+                            context,
+                            "Email created successfully",
+                          );
+                        } else if (state is SignUpFailure) {
+                          ShowSnack.showSnack(context, state.errorMessage);
+                        }
+                      },
+                      builder: (context, state) {
+                        return CustomButton(
+                          onTap: state is SignInLoading
+                              ? () {}
+                              : checkValidation,
+                          text: "create",
+                          loading: state is SignUpLoading ? true : null,
+                        );
+                      },
+                    ),
                     Gap(h: 16.h),
-
                     Center(
                       child: CustomClickText(
                         text: "Sign In",

@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:task/controllers/auth_control/sign_in/sign_in_cubit.dart';
 import 'package:task/helpers/widgets/custom_click_text.dart';
 import 'package:task/helpers/widgets/custom_text.dart';
 import 'package:task/helpers/widgets/gap.dart';
@@ -9,8 +12,10 @@ import 'package:task/helpers/widgets/show_snack.dart';
 import 'package:task/models/user/user_model.dart';
 import 'package:task/views/screens/home_page.dart';
 import 'package:task/views/screens/sign_up.dart';
+import 'package:task/views/screens/wrapper.dart';
 import 'package:task/views/widgets/custom_button.dart';
 import 'package:task/views/widgets/custom_text_field.dart';
+import 'package:task/views/widgets/google_button.dart';
 
 import '../../helpers/theme/appcolors.dart';
 
@@ -30,22 +35,32 @@ class _SignInState extends State<SignIn> {
 
   void checkValidation() {
     if (_formKey.currentState!.validate()) {
-      List<UserModel> users = UserModel.users
-          .where(
-            (element) =>
-                email.text.trim() == element.email &&
-                pass.text.trim() == element.pass,
-          )
-          .toList();
-      if (users.isEmpty) {
-        ShowSnack.showSnack(context, "Email not found");
-      } else {
-        ShowSnack.showSnack(context, "Welcome ${users[0].name}");
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => HomePage()),
-        );
-      }
+      ///local sign
+      // List<UserModel> users = UserModel.users
+      //     .where(
+      //       (element) =>
+      //           email.text.trim() == element.email &&
+      //           pass.text.trim() == element.pass,
+      //     )
+      //     .toList();
+      // if (users.isEmpty) {
+      //   ShowSnack.showSnack(context, "Email not found");
+      // } else {
+      //   ShowSnack.showSnack(context, "Welcome ${users[0].name}");
+      //   Navigator.pushReplacement(
+      //     context,
+      //     MaterialPageRoute(builder: (context) => HomePage()),
+      //   );
+      // }
+
+      context.read<SignInCubit>().signIn(
+        UserModel(
+          image: null,
+          name: "not used for now",
+          email: email.text.trim(),
+        ),
+        pass.text.trim(),
+      );
     }
   }
 
@@ -96,7 +111,29 @@ class _SignInState extends State<SignIn> {
                       type: InputType.password,
                     ),
                     Gap(h: 24.h),
-                    CustomButton(onTap: checkValidation, text: "Login"),
+                    BlocConsumer<SignInCubit, SignInState>(
+                      listener: (context, state) {
+                        if (state is SignInSuccess) {
+                          Navigator.of(context).pushReplacement(
+                            MaterialPageRoute(builder: (context) => Wrapper()),
+                          );
+                          ShowSnack.showSnack(context, "Welcome to ShopSmart");
+                        } else if (state is SignInFailure) {
+                          ShowSnack.showSnack(context, state.errorMessage);
+                        }
+                      },
+                      builder: (context, state) {
+                        return CustomButton(
+                          onTap: state is SignInLoading
+                              ? () {}
+                              : checkValidation,
+                          text: "Login",
+                          loading: state is SignInLoading ? true : null,
+                        );
+                      },
+                    ),
+                    Gap(h: 8.h),
+                    GoogleButton(),
                     Gap(h: 16.h),
                     Center(
                       child: CustomClickText(

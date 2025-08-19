@@ -5,8 +5,14 @@ import 'package:task/helpers/theme/appcolors.dart';
 import 'package:task/helpers/widgets/custom_text.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({super.key, required this.onTap, required this.text});
+  CustomButton({
+    super.key,
+    required this.onTap,
+    required this.text,
+    this.loading,
+  });
   final String text;
+  bool? loading;
   final void Function() onTap;
 
   @override
@@ -21,12 +27,14 @@ class CustomButton extends StatelessWidget {
         ),
       ),
       onPressed: onTap,
-      child: CustomText(
-        text: text,
-        size: 16.sp,
-        weight: FontWeight.bold,
-        color: AppColors.backGroundPrimary,
-      ),
+      child: loading != null
+          ? CupertinoActivityIndicator(color: AppColors.backGroundPrimary)
+          : CustomText(
+              text: text,
+              size: 16.sp,
+              weight: FontWeight.bold,
+              color: AppColors.backGroundPrimary,
+            ),
     );
   }
 }
