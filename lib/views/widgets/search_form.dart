@@ -5,13 +5,15 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:task/helpers/theme/appcolors.dart';
 
 class SearchForm extends StatelessWidget {
-  const SearchForm({super.key});
+  const SearchForm({super.key, required this.textEditingController});
+  final TextEditingController textEditingController;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 48.h,
       child: TextField(
+        controller: textEditingController,
         style: GoogleFonts.inter(
           fontSize: 16.sp,
           fontWeight: FontWeight.w400,

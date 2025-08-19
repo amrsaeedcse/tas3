@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:task/controllers/auth_control/google_sign_in/google_sign_in_cubit.dart';
 
@@ -20,9 +21,7 @@ class GoogleButton extends StatelessWidget {
       listener: (context, state) {
         if (state is GoogleSignInSuccess) {
           Navigator.pop(context);
-          Navigator.of(
-            context,
-          ).pushReplacement(MaterialPageRoute(builder: (context) => Wrapper()));
+          context.pushReplacement("/wrapper");
           ShowSnack.showSnack(context, "Welcome to ShopSmart");
         } else if (state is GoogleSignInFailure) {
           Navigator.pop(context);

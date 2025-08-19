@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:task/controllers/auth_control/sign_in/sign_in_cubit.dart';
 import 'package:task/controllers/auth_control/sign_up/sign_up_cubit.dart';
@@ -120,9 +121,7 @@ class _SignUpState extends State<SignUp> {
                     BlocConsumer<SignUpCubit, SignUpState>(
                       listener: (context, state) {
                         if (state is SignUpSuccess) {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => SignIn()),
-                          );
+                          context.pushReplacement("/sign_in");
                           ShowSnack.showSnack(
                             context,
                             "Email created successfully",
@@ -146,10 +145,7 @@ class _SignUpState extends State<SignUp> {
                       child: CustomClickText(
                         text: "Sign In",
                         onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => SignIn()),
-                          );
+                          context.pushNamed("sign_in");
                         },
                       ),
                     ),

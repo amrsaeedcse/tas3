@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:task/helpers/theme/appcolors.dart';
 import 'package:task/helpers/widgets/custom_text.dart';
@@ -7,9 +8,14 @@ import 'package:task/models/products/products_model.dart';
 import 'package:task/views/widgets/add_to_cart_icon.dart';
 
 class ProductColumn extends StatelessWidget {
-  const ProductColumn({super.key, required this.productModel});
+  const ProductColumn({
+    super.key,
+    required this.productModel,
+    required this.tag,
+  });
 
   final ProductModel productModel;
+  final String tag;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,14 +23,20 @@ class ProductColumn extends StatelessWidget {
       children: [
         Stack(
           children: [
-            Container(
-              height: 173.h,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: AssetImage(productModel.image),
+            Hero(
+              tag: tag,
+              child: Material(
+                color: Colors.transparent,
+                child: Container(
+                  height: 173.h,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: AssetImage(productModel.image),
+                    ),
+                    borderRadius: BorderRadius.circular(8.r),
+                  ),
                 ),
-                borderRadius: BorderRadius.circular(8.r),
               ),
             ),
             Positioned(

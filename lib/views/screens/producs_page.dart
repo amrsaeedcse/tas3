@@ -8,8 +8,9 @@ import '../../helpers/widgets/custom_app_bar.dart';
 import '../../helpers/widgets/custom_text.dart';
 
 class ProductPage extends StatelessWidget {
-  const ProductPage({super.key, required this.productModel});
+  const ProductPage({super.key, required this.productModel, required this.tag});
   final ProductModel productModel;
+  final String tag; //for hero anim
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,7 @@ class ProductPage extends StatelessWidget {
         child: Column(
           children: [
             Hero(
-              tag: "2", //temp
+              tag: tag, //temp
               child: Material(
                 color: Colors.transparent,
                 child: Image.asset(

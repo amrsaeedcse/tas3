@@ -4,6 +4,7 @@ part of 'cart_control_cubit.dart';
 sealed class CartControlState {
   final List<CartModel> cartProducts;
   double price;
+
   CartControlState(this.cartProducts, this.price);
 }
 

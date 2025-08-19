@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:task/controllers/auth_control/sign_in/sign_in_cubit.dart';
@@ -114,9 +115,7 @@ class _SignInState extends State<SignIn> {
                     BlocConsumer<SignInCubit, SignInState>(
                       listener: (context, state) {
                         if (state is SignInSuccess) {
-                          Navigator.of(context).pushReplacement(
-                            MaterialPageRoute(builder: (context) => Wrapper()),
-                          );
+                          context.pushReplacement("/sign_up");
                           ShowSnack.showSnack(context, "Welcome to ShopSmart");
                         } else if (state is SignInFailure) {
                           ShowSnack.showSnack(context, state.errorMessage);
@@ -146,10 +145,7 @@ class _SignInState extends State<SignIn> {
                       child: CustomClickText(
                         text: "Sign Up",
                         onTap: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => SignUp()),
-                          );
+                          context.pushReplacement("/sign_up");
                         },
                       ),
                     ),

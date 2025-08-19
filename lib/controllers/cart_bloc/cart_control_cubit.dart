@@ -28,4 +28,6 @@ class CartControlCubit extends Cubit<CartControlState> {
     emit(CartControlValue(state.cartProducts, sum));
     print(state.price);
   }
+
+  void sortItBy() {}
 }

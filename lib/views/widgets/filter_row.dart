@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:task/controllers/sorting/sort_control.dart';
 
 import 'filter_button.dart';
 
@@ -21,6 +23,7 @@ class _FilterRowState extends State<FilterRow> {
           text: "All",
           onTap: () {
             setState(() {
+              context.read<SortByControl>().setSorting(SortBy.all);
               currentIndex = 0;
             });
           },
@@ -30,6 +33,8 @@ class _FilterRowState extends State<FilterRow> {
           text: "Featured",
           onTap: () {
             setState(() {
+              context.read<SortByControl>().setSorting(SortBy.featured);
+
               currentIndex = 1;
             });
           },
@@ -40,6 +45,8 @@ class _FilterRowState extends State<FilterRow> {
           text: "New",
           onTap: () {
             setState(() {
+              context.read<SortByControl>().setSorting(SortBy.newPr);
+
               currentIndex = 2;
             });
           },

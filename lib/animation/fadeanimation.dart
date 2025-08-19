@@ -17,7 +17,7 @@ class _FadeAnimationState extends State<FadeAnimation>
     // TODO: implement initState
     _animationController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 1000),
     );
     _fadeAnimation = Tween(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(parent: _animationController, curve: Curves.bounceIn),
